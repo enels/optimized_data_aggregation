@@ -22,9 +22,9 @@ class DBConnect:
         except Exception as e:
             print("Error: ", e)
 
-        print("Connection Successful!")
+        return True
 
     def close_connection(self):
         self.conn.close()
         
-        print("connection close")
+        return True
