@@ -14,7 +14,7 @@ if __name__ == "__main__":
         the possible columns you may have in the csv file.
     """
 
-    data = "sales_data.csv"
+    data = "data/sales_data.csv"
 
     # create the object to load data into database
     data_handler = LoadData(data)
