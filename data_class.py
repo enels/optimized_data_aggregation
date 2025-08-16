@@ -26,3 +26,49 @@ class LoadData(DBConnect):
 
     def load_data_to_dbase(self):
         pass
+
+    def _get_product_id(self):
+        pass
+
+    def _get_region_id(self):
+        pass
+    
+    def _get_country_id(self):
+        pass
+
+class ValidateData(LoadData):
+
+
+    def __init__(self, filename):
+
+        self.filename = filename
+        self.header = list()
+        self.data = list()
+
+    def  validate_num_of_columns(self):
+        pass
+    
+    def validate_delimiter_consistency(self):
+        pass
+    
+    def validate_correct_header_names(self):
+        pass
+
+    def validate_datatype(self):
+        pass
+
+    def remove_any_initial_whitespace(self):
+        pass
+
+    def _get_column_names(self):
+        pass
+
+class FileErrorCheck:
+
+    def __init__(self, filename):
+        
+        self.filename = filename
+
+    def check_file(self):
+
+        pass
