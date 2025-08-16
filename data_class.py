@@ -13,6 +13,10 @@ class LoadData(DBConnect):
 
         # data list to be loaded into database
         self.data = data
+
+        _self.product_name = ""
+        _self.region = ""
+        _self.country = ""
         
     def establish_db_connection(self):
 
@@ -26,6 +30,18 @@ class LoadData(DBConnect):
 
     def load_data_to_dbase(self):
         pass
+
+    def _set_product_name(self, product_name):
+        
+        self.product_name = product_name
+
+    def _set_region(self, region):
+
+        self.region = region
+
+    def _set_country(self, country):
+
+        self.country = country
 
     def _get_product_id(self):
         pass
