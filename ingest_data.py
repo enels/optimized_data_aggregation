@@ -21,6 +21,7 @@ if __name__ == "__main__":
 
     try: 
         status = FileErrorCheck(file_path)
+        status.check_file()
     except Exception as e:
         print("Error: {}".format(e))
 
