@@ -1,4 +1,4 @@
-from data_class import LoadData
+from data_class import LoadData, ValidateData, FileErrorCheck
 
 if __name__ == "__main__":
     
@@ -14,10 +14,47 @@ if __name__ == "__main__":
         the possible columns you may have in the csv file.
     """
 
-    data = "data/sales_data.csv"
+    file_path = "data/sales_data.csv"
 
-    # create the object to load data into database
-    data_handler = LoadData(data)
+    
+    # checks for any error in file
+    try: 
+        status = FileErrorCheck(file_path)
+    except Exception as e:
+        print("Error: {}".format(e))
+
+
+    ########### validate data in file #############
+    data_handler = ValidateData(file_path)
+
+    # remove any initial white spaces
+    data_handler.remove_any_initial_whitespace()
+
+    # validate number of columns in the csv file
+    data_handler.validate_num_of_columns()
+
+    # validate the consistency of the delimiter
+    data_handler.validate_delimiter_consistency()
+
+    # validate the column names
+    # this checks if the column names in the csv file matches
+    # what is in the database
+    data_handler.validate_correct_header_names()
+
+    # validate the datatype of the various data on the columns
+    # of the csv file
+    data_handler.validate_datatype()
+
+    if False in data_handler.get_current_status():
+        raise Exception ("Data not validated, Please check csv file.")
+
+    # if none of fthe above validation failes, get the validated data
+    # Note that validated data is in List of Tuples
+    validated_data = data_handler.get_validated_data():
+
+
+    # create the object to load the validated data into the database
+    validated_data_handler = LoadData(validated_data)
 
     # establish connection to database
     data_handler.establish_db_connection()
