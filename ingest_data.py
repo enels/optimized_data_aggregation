@@ -17,14 +17,17 @@ if __name__ == "__main__":
     file_path = "data/sales_data.csv"
 
     
-    # checks for any error in file
+    ########## checks for any error in file ############
+
     try: 
         status = FileErrorCheck(file_path)
     except Exception as e:
         print("Error: {}".format(e))
 
 
+
     ########### validate data in file #############
+
     data_handler = ValidateData(file_path)
 
     # remove any initial white spaces
@@ -45,22 +48,26 @@ if __name__ == "__main__":
     # of the csv file
     data_handler.validate_datatype()
 
+    # checks if the entire data validation process was successful
+    # if it didn't, program raises an exception
     if False in data_handler.get_current_status():
         raise Exception ("Data not validated, Please check csv file.")
 
     # if none of fthe above validation failes, get the validated data
     # Note that validated data is in List of Tuples
-    validated_data = data_handler.get_validated_data():
+    validated_data = data_handler.get_validated_data()
 
+
+    ########## Load Validated Data Into Database ###################
 
     # create the object to load the validated data into the database
     validated_data_handler = LoadData(validated_data)
 
     # establish connection to database
-    data_handler.establish_db_connection()
+    validated_data_handler.establish_db_connection()
 
     # load data into database
-    data_handler.load_data_to_dbase()
+    validated_data_handler.load_data_to_dbase()
 
-    data_handler.close_db_connection()
-
+    # close database connection
+    validated_data_handler.close_db_connection()
