@@ -44,7 +44,7 @@ class ValidateData(DBConnect):
         self.file_path = file_path
         self.__header_names = None
         self.data = list()
-        self.__current_status = list()
+        self.__validation_errors = dict()
 
         super().__init__()
 
@@ -122,9 +122,10 @@ class ValidateData(DBConnect):
         column_names = self.__get_column_names()
 
         if len(self.__header_names) == len(column_names):
-            self.__current_status.append(True)
+            self.__validation_errors['Validation Error: Number of columns in csv file {}
+                    does not match with number of columns in table'] = True
         else:
-            self.__current_status.append(False)
+            self.__validation_errors.append(False)
             
     def validate_delimiter_consistency(self):
         pass
@@ -149,7 +150,8 @@ class ValidateData(DBConnect):
                 # if they are not, append false to the current validation status
                 # then break out of loop
                 else:
-                    self.__current_status.append(False)
+                    self.__validation_errors['Validation Error: Column names in csv file {} does
+                    not match with column names in table'] = True
                     break
 
     def validate_datatype(self):
@@ -164,7 +166,7 @@ class ValidateData(DBConnect):
 
     def get_current_status(self):
         
-        return self.__current_status
+        return self.__validation_errors
 
 class FileErrorCheck:
 
