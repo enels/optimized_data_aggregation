@@ -36,20 +36,27 @@ class LoadData(DBConnect):
     def _get_country_id(self, country):
         pass
 
-class ValidateData(LoadData):
+class ValidateData(DBConnect):
 
 
     def __init__(self, filename):
 
         self.filename = filename
         self.header = list()
-        self.data = list()
+        self.data = None
         self.current_status = list()
 
         super().__init__()
 
     def  validate_num_of_columns(self):
-        pass
+        
+        """super().connect()
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM test_tbl")
+        self.data = cur.fetchall()
+        print(self.data)
+        """
+
     
     def validate_delimiter_consistency(self):
         pass
