@@ -44,6 +44,9 @@ class ValidateData(LoadData):
         self.filename = filename
         self.header = list()
         self.data = list()
+        self.current_status = list()
+
+        super().__init__()
 
     def  validate_num_of_columns(self):
         pass
@@ -65,6 +68,10 @@ class ValidateData(LoadData):
 
     def get_validated_data(self):
         pass
+
+    def get_current_status(self):
+        
+        return self.current_status
 
 class FileErrorCheck:
 
