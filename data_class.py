@@ -39,14 +39,27 @@ class LoadData(DBConnect):
 class ValidateData(DBConnect):
 
 
-    def __init__(self, filename):
+    def __init__(self, file_name):
 
-        self.filename = filename
+        self.file_name = file_name
         self.header = list()
         self.data = None
         self.current_status = list()
 
         super().__init__()
+
+    def _get_table_name(self):
+
+        """ Get the table name that the data
+            will be ingested into
+
+            Note that, the name part of the filename should
+            be set as the already created table name in the
+            database
+        """
+        table_name = self.file_name.split(".")[0]
+
+        return table_name
 
     def  validate_num_of_columns(self):
         
@@ -54,10 +67,9 @@ class ValidateData(DBConnect):
         cur = self.conn.cursor()
         cur.execute("SELECT * FROM test_tbl")
         self.data = cur.fetchall()
-        print(self.data)
-        """
+        print(self.data)"""
+        
 
-    
     def validate_delimiter_consistency(self):
         pass
     
