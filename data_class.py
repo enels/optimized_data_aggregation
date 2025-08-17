@@ -81,4 +81,22 @@ class FileErrorCheck:
 
     def check_file(self):
 
-        pass
+        try:
+            with open(self.filename) as csv_file:
+
+                csv_reader = csv.reader(csv_file, delimiter=',')
+
+        except FileNotFoundError:
+            print("Error: The csv file with name {0} cannot be found".format(file))
+
+        # check for bad file format
+        except csv.Error as e:
+            print("Error: {}".format(e))
+
+        # check for characters that are outside the unicode system
+        except UnicodeDecodeError:
+            print("Error: File contains illegal character")
+
+        # Miscellaneuos errors
+        except Exception as e:
+            print("Unexpected error: {}".format(e))
