@@ -44,7 +44,7 @@ class ValidateData(DBConnect):
         self.file_path = file_path
         self.__header_names = None
         self.data = list()
-        self.current_status = list()
+        self.__current_status = list()
 
         super().__init__()
 
@@ -122,15 +122,35 @@ class ValidateData(DBConnect):
         column_names = self.__get_column_names()
 
         if len(self.__header_names) == len(column_names):
-            self.current_status.append(True)
+            self.__current_status.append(True)
         else:
-            self.current_status.append(False)
+            self.__current_status.append(False)
             
     def validate_delimiter_consistency(self):
         pass
     
     def validate_correct_header_names(self):
-        pass
+
+        column_names = self.__get_column_names()
+
+        # compare lower cases of each coloumn names and
+        # header names in file
+
+
+        # first, make sure the length are the same
+        if len(self.__header_names) == len(column_names):
+            for idx in range(len(self.__header_names)):
+
+                # check if they are both equal - the column name from the database
+                # and the column name from the csv file
+                if self.__header_names[idx].lower() == column_names[idx][0].lower():
+                    pass
+
+                # if they are not, append false to the current validation status
+                # then break out of loop
+                else:
+                    self.__current_status.append(False)
+                    break
 
     def validate_datatype(self):
         pass
@@ -138,15 +158,13 @@ class ValidateData(DBConnect):
     def remove_any_initial_whitespace(self):
         pass
 
-    def _get_column_names(self):
-        pass
-
     def get_validated_data(self):
-        pass
+        
+        return self.data
 
     def get_current_status(self):
         
-        return self.current_status
+        return self.__current_status
 
 class FileErrorCheck:
 

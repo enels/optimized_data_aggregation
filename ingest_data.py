@@ -40,15 +40,15 @@ if __name__ == "__main__":
     # validate number of columns in the csv file
     data_handler.validate_num_of_columns()
 
+    # validate the column names
+    # this checks if the column names in the csv file matches
+    # what is in the database
+    data_handler.validate_correct_header_names()
 """
 
     # validate the consistency of the delimiter
     data_handler.validate_delimiter_consistency()
 
-    # validate the column names
-    # this checks if the column names in the csv file matches
-    # what is in the database
-    data_handler.validate_correct_header_names()
 
     # validate the datatype of the various data on the columns
     # of the csv file
