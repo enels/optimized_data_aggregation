@@ -19,11 +19,15 @@ if __name__ == "__main__":
     
     ########## checks for any error in file ############
 
-    try: 
-        status = FileErrorCheck(file_path)
-        status.check_file()
-    except Exception as e:
-        print("Error: {}".format(e))
+    status = FileErrorCheck(file_path)
+    status.check_file()
+    print("File exists and in good condition")
+
+    "extract the file name"
+    file_name = status.get_file_name()
+    print("File name: {}".format(file_name))
+
+    """
 
 
 
@@ -72,3 +76,4 @@ if __name__ == "__main__":
 
     # close database connection
     validated_data_handler.close_db_connection()
+    """

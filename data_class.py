@@ -80,15 +80,34 @@ class FileErrorCheck:
         self.file_path = file_path
         self.file_name = ""
 
+    
+    def _extract_file_name(self):
+
+        """
+            Extracts the file name
+        """
+
+        if "/" in self.file_path:
+            self.file_name = self.file_path.split("/")[-1]
+        else:
+            self.file_name = self.file_path
+
+    def get_file_name(self):
+
+        return self.file_name
+
     def check_file(self):
 
+        # extract the file name from the file path
+        self._extract_file_name()
+
         try:
-            with open(self.filename) as csv_file:
+            with open(self.file_path) as csv_file:
 
                 csv_reader = csv.reader(csv_file, delimiter=',')
 
         except FileNotFoundError:
-            print("Error: The csv file with name {0} cannot be found".format(file))
+            print("Error: The csv file with name {0} cannot be found".format(self._extract_file_name(file_path)))
 
         # check for bad file format
         except csv.Error as e:
