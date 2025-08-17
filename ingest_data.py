@@ -1,4 +1,6 @@
-from data_class import LoadData, ValidateData, FileErrorCheck
+from utilities.load_data import LoadData
+from utilities.validate_data import ValidateData
+from utilities.file_error_checker import FileErrorCheck
 
 if __name__ == "__main__":
     

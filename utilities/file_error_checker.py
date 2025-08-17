@@ -1,0 +1,59 @@
+# csv file library for working with csv
+import csv 
+
+
+class FileErrorCheck:
+
+    def __init__(self, file_path):
+        
+        self.file_path = file_path
+        self.file_name = ""
+
+    
+    def _extract_file_name(self):
+
+        """
+            Extracts the file name
+        """
+
+        if "/" in self.file_path:
+            self.file_name = self.file_path.split("/")[-1]
+        else:
+            self.file_name = self.file_path
+
+    def get_file_name(self):
+
+        # checks file for errors
+        self._check_file()
+
+        # extract the file name from the file path
+        # checks if file name is already set
+        if self.file_name == "":
+            self._extract_file_name()
+        
+        # return file name
+        return self.file_name
+
+    def _check_file(self):
+
+
+        try:
+            with open(self.file_path) as csv_file:
+
+                csv_reader = csv.reader(csv_file, delimiter=',')
+
+        except FileNotFoundError:
+            self._extract_file_name()
+            print("Error: The csv file with name {0} cannot be found".format(self.file_name))
+
+        # check for bad file format
+        except csv.Error as e:
+            print("Error: {}".format(e))
+
+        # check for characters that are outside the unicode system
+        except UnicodeDecodeError:
+            print("Error: File contains illegal character")
+
+        # Miscellaneuos errors
+        except Exception as e:
+            print("Unexpected error: {}".format(e))
