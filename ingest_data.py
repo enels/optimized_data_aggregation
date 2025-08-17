@@ -14,7 +14,8 @@ if __name__ == "__main__":
         the possible columns you may have in the csv file.
     """
 
-    file_path = "data/products_data.csv"
+    #file_path = "data/products_data.csv"
+    file_path = "data/test_tbl.csv"
 
     
     ########## checks for any error in file ############
@@ -24,16 +25,22 @@ if __name__ == "__main__":
     "get the file name"
     file_name = status.get_file_name()
 
-    """
+
+
     ########### validate data in file #############
 
     data_handler = ValidateData(file_path)
 
+    # first, open file for validation
+    data_handler.open_file_for_validation()
+
     # remove any initial white spaces
-    data_handler.remove_any_initial_whitespace()
+    # data_handler.remove_any_initial_whitespace()
 
     # validate number of columns in the csv file
     data_handler.validate_num_of_columns()
+
+"""
 
     # validate the consistency of the delimiter
     data_handler.validate_delimiter_consistency()
