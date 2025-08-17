@@ -94,12 +94,19 @@ class FileErrorCheck:
 
     def get_file_name(self):
 
-        return self.file_name
-
-    def check_file(self):
+        # checks file for errors
+        self._check_file()
 
         # extract the file name from the file path
-        self._extract_file_name()
+        # checks if file name is already set
+        if self.file_name == "":
+            self._extract_file_name()
+        
+        # return file name
+        return self.file_name
+
+    def _check_file(self):
+
 
         try:
             with open(self.file_path) as csv_file:
@@ -107,7 +114,8 @@ class FileErrorCheck:
                 csv_reader = csv.reader(csv_file, delimiter=',')
 
         except FileNotFoundError:
-            print("Error: The csv file with name {0} cannot be found".format(self._extract_file_name(file_path)))
+            self._extract_file_name()
+            print("Error: The csv file with name {0} cannot be found".format(self.file_name))
 
         # check for bad file format
         except csv.Error as e:

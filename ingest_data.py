@@ -14,23 +14,17 @@ if __name__ == "__main__":
         the possible columns you may have in the csv file.
     """
 
-    file_path = "data/sales_data.csv"
+    file_path = "data/products_data.csv"
 
     
     ########## checks for any error in file ############
 
     status = FileErrorCheck(file_path)
-    status.check_file()
-    print("File exists and in good condition")
 
-    "extract the file name"
+    "get the file name"
     file_name = status.get_file_name()
-    print("File name: {}".format(file_name))
 
     """
-
-
-
     ########### validate data in file #############
 
     data_handler = ValidateData(file_path)
