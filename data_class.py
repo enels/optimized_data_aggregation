@@ -164,7 +164,7 @@ class ValidateData(DBConnect):
         
         return self.data
 
-    def get_current_status(self):
+    def get_validation_errors(self):
         
         return self.__validation_errors
 

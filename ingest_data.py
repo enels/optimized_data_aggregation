@@ -44,6 +44,15 @@ if __name__ == "__main__":
     # this checks if the column names in the csv file matches
     # what is in the database
     data_handler.validate_correct_header_names()
+
+    # checks if the entire data validation process was successful
+    # if it didn't, program raises an exception
+    validation_errors = data_handler.get_validation_errors()
+    
+    if len(validation_errors) > 0:
+        for k,v in validation_errors.items():
+            print(k.format(file_name))
+        raise Exception ("Data was not loaded into database due to validation error(s).")
 """
 
     # validate the consistency of the delimiter
@@ -54,10 +63,6 @@ if __name__ == "__main__":
     # of the csv file
     data_handler.validate_datatype()
 
-    # checks if the entire data validation process was successful
-    # if it didn't, program raises an exception
-    if False in data_handler.get_current_status():
-        raise Exception ("Data not validated, Please check csv file.")
 
     # if none of fthe above validation failes, get the validated data
     # Note that validated data is in List of Tuples
