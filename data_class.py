@@ -14,10 +14,6 @@ class LoadData(DBConnect):
         # data list to be loaded into database
         self.data = data
 
-        _self.product_name = ""
-        _self.region = ""
-        _self.country = ""
-        
     def establish_db_connection(self):
 
         # try establishing connection
@@ -31,25 +27,13 @@ class LoadData(DBConnect):
     def load_data_to_dbase(self):
         pass
 
-    def _set_product_name(self, product_name):
-        
-        self.product_name = product_name
-
-    def _set_region(self, region):
-
-        self.region = region
-
-    def _set_country(self, country):
-
-        self.country = country
-
-    def _get_product_id(self):
+    def _get_product_id(self, product_name):
         pass
 
-    def _get_region_id(self):
+    def _get_region_id(self, region):
         pass
     
-    def _get_country_id(self):
+    def _get_country_id(self, country):
         pass
 
 class ValidateData(LoadData):
@@ -77,6 +61,9 @@ class ValidateData(LoadData):
         pass
 
     def _get_column_names(self):
+        pass
+
+    def get_validated_data(self):
         pass
 
 class FileErrorCheck:
