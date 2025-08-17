@@ -75,9 +75,10 @@ class ValidateData(LoadData):
 
 class FileErrorCheck:
 
-    def __init__(self, filename):
+    def __init__(self, file_path):
         
-        self.filename = filename
+        self.file_path = file_path
+        self.file_name = ""
 
     def check_file(self):
 
