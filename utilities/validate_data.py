@@ -88,30 +88,33 @@ class ValidateData(DBConnect):
     def open_file_for_validation(self):
 
         n_nonempty_rows = 0
+        try:
+           with open(self.file_path) as csv_file:
 
-        with open(self.file_path) as csv_file:
+               csv_reader = csv.reader(csv_file, delimiter=',')
 
-            csv_reader = csv.reader(csv_file, delimiter=',')
+               n_nonempty_rows = 0 # keeps count of the number of rows
 
-            n_nonempty_rows = 0 # keeps count of the number of rows
+               # read the columns before reading the contents
+               # since the first row is the column
 
-            # read the columns before reading the contents
-            # since the first row is the column
+               for row in csv_reader:
+                  if not row:
+                     print("empty row")
+                     continue
 
-            for row in csv_reader:
-                if not row:
-                    print("empty row")
-                    continue
-
-                n_nonempty_rows += 1
-                if n_nonempty_rows == 1:
+                  n_nonempty_rows += 1
+                  if n_nonempty_rows == 1:
                     # store the column header row
                     # assuming it's the header
                     self.__header_names = row
                     continue
 
-                # store the other data
-                self.__data.append(tuple(row))
+                  # store the other data
+                  self.__data.append(tuple(row))
+
+        except FileNotFoundError:
+           print("File not Found")
 
 
     def  validate_num_of_columns(self):

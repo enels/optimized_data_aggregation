@@ -34,42 +34,45 @@ if __name__ == "__main__":
     data_handler = ValidateData(file_path)
 
     # first, open file for validation
-    data_handler.open_file_for_validation()
+    try:
+       data_handler.open_file_for_validation()
 
-    # remove any initial white spaces
-    # data_handler.remove_any_initial_whitespace()
+       # remove any initial white spaces
+       # data_handler.remove_any_initial_whitespace()
 
-    # validate number of columns in the csv file
-    data_handler.validate_num_of_columns()
+       # validate number of columns in the csv file
+       data_handler.validate_num_of_columns()
 
-    # validate the column names
-    # this checks if the column names in the csv file matches
-    # what is in the database
-    data_handler.validate_correct_header_names()
+       # validate the column names
+       # this checks if the column names in the csv file matches
+       # what is in the database
+       data_handler.validate_correct_header_names()
 
-    # checks if the entire data validation process was successful
-    # if it didn't, program raises an exception
-    validation_errors = data_handler.get_validation_errors()
+       # checks if the entire data validation process was successful
+       # if it didn't, program raises an exception
+       validation_errors = data_handler.get_validation_errors()
     
-    if len(validation_errors) > 0:
-        for k,v in validation_errors.items():
-            print(k.format(file_name))
-        raise Exception ("Data was not loaded into database due to validation error(s).")
+       if len(validation_errors) > 0:
+          for k,v in validation_errors.items():
+             print(k.format(file_name))
+          raise Exception ("Data was not loaded into database due to validation error(s).")
 
-    data_handler.validate_datatype()
+       data_handler.validate_datatype()
 
-    # validate the consistency of the delimiter
-    data_handler.validate_delimiter_consistency()
-
-
-    # validate the datatype of the various data on the columns
-    # of the csv file
-    data_handler.validate_datatype()
+       # validate the consistency of the delimiter
+       data_handler.validate_delimiter_consistency()
 
 
-    # if none of fthe above validation failes, get the validated data
-    # Note that validated data is in List of Tuples
-    validated_data = data_handler.get_validated_data()
+       # validate the datatype of the various data on the columns
+       # of the csv file
+       data_handler.validate_datatype()
+
+
+       # if none of fthe above validation failes, get the validated data
+       # Note that validated data is in List of Tuples
+       validated_data = data_handler.get_validated_data()
+    except Exception as e:
+       print("Error Validating file")
 
     """
     ########## Load Validated Data Into Database ###################
