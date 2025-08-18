@@ -119,7 +119,25 @@ class ValidateData(DBConnect):
                     does not match with number of columns in table'] = True
             
     def validate_delimiter_consistency(self):
-        pass
+        """
+            Validates delimiter consistency across the data and eliminates rows
+            thas has missing values
+        """
+
+		# get column names
+		column_names = self.__get_column_names()
+
+
+		# get the entire total record on the dataset
+        total_rows_in_data = len(self.__data)
+
+        for idx in range(total_rows_in_data):
+
+			# checks if row has a missing value
+            if  "" in data[idx] or len(column_names) != len(data[idx]):
+
+				# delete empty row or row with missing column values
+			   del(self.__data[idx]
     
     def validate_correct_header_names(self):
 
@@ -169,10 +187,6 @@ class ValidateData(DBConnect):
                 except ValueError:
                     print("Invalid type conversion: One of your csv data type is not validated")
                     self.__validation_errors['Validation Error: Invalid data type in csv file'] = True
-
-
-    def remove_any_initial_whitespace(self):
-        pass
 
     def get_validated_data(self):
         
