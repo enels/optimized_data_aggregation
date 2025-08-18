@@ -55,7 +55,8 @@ if __name__ == "__main__":
         for k,v in validation_errors.items():
             print(k.format(file_name))
         raise Exception ("Data was not loaded into database due to validation error(s).")
-"""
+
+    data_handler.validate_datatype()
 
     # validate the consistency of the delimiter
     data_handler.validate_delimiter_consistency()
@@ -70,7 +71,7 @@ if __name__ == "__main__":
     # Note that validated data is in List of Tuples
     validated_data = data_handler.get_validated_data()
 
-
+    """
     ########## Load Validated Data Into Database ###################
 
     # create the object to load the validated data into the database
