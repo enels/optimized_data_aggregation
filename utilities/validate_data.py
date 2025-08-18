@@ -200,7 +200,6 @@ not match with column names in table'] = True
                     else:
                         pass
                 except ValueError:
-                    print("Invalid type conversion: One of your csv data type is not validated")
                     self.__validation_errors['Validation Error: Invalid data type in csv file'] = True
 
     def get_validated_data(self):
