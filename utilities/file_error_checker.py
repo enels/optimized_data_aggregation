@@ -60,3 +60,7 @@ class FileErrorCheck:
         # Miscellaneuos errors
         except Exception as e:
             self.__file_errors["Error: Unexpected error in file {}".format(e)] = True
+    
+	 def get_file_errors(self):
+
+        return self.__file_errors
