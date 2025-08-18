@@ -1,5 +1,5 @@
 # import the necessary files
-import psycopg2, connection_details
+import psycopg2, database.connection_details as connection_details
 
 """
 connection_details: contains the hard coded details of the database connection to be established
