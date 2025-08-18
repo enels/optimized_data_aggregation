@@ -12,7 +12,7 @@ class ValidateData(DBConnect):
 
         self.file_path = file_path
         self.__header_names = None
-        self.data = list()
+        self.__data = list()
         self.__validation_errors = dict()
 
         super().__init__()
@@ -30,13 +30,35 @@ class ValidateData(DBConnect):
 
         return table_name
 
+    def __get_datatypes(self):
+
+
+        """
+            Get the datatypes of the table column names
+        """
+
+        # get table name
+        table_name = self.__get_table_name()
+
+        # get column name
+        super().connect()
+
+        # query to get the column names
+        query = "SELECT data_type FROM (SELECT * from information_schema.columns WHERE table_schema = 'public' AND table_name = '{}')".format(table_name)
+
+        cur = self.conn.cursor()
+        cur.execute(query)
+        data_types = cur.fetchall()
+
+        return data_types
+        
     def __get_column_names(self):
 
         """
             Get the column names from the designated table for
             the data to be loaded.
 
-            Note again that the name part ofthe filename should
+            Note again that the name part of the filename should
             be set as the already created table in the database.
 
             This is to enable the program know what to do.
@@ -83,7 +105,7 @@ class ValidateData(DBConnect):
                     continue
 
                 # store the other data
-                self.data.append(tuple(row))
+                self.__data.append(tuple(row))
 
 
     def  validate_num_of_columns(self):
@@ -124,14 +146,37 @@ class ValidateData(DBConnect):
                     break
 
     def validate_datatype(self):
-        pass
+
+        """
+            Validates the datatypes in each data of the csv file with the data types on the table column
+            If the data types does not match, it raises an exception
+
+            Limitations: Please note that this file only validates the integer, float, and char data types
+        """
+        
+        column_data_types = self.__get_datatypes()
+
+        for i in range(len(column_data_types)):
+            for j in range(len(self.__data)):
+                try:
+
+                    if (column_data_types[i][0] == 'integer' and type(int(self.__data[j][i])) == int) or \
+                            (column_data_types[i][0] == 'character varying') and type(self.__data[j][i]) == str) or \
+                            (column_data_types[i][0] == 'numeric') and type(float(self.__data[j][i])) == float):
+                        pass
+                    else:
+                        pass
+                except ValueError:
+                    print("Invalid type conversion: One of your csv data type is not validated")
+                    self.__validation_errors['Validation Error: Invalid data type in csv file'] = True
+
 
     def remove_any_initial_whitespace(self):
         pass
 
     def get_validated_data(self):
         
-        return self.data
+        return self.__data
 
     def get_validation_errors(self):
         
