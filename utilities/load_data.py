@@ -9,8 +9,8 @@ class LoadData(DBConnect):
 
         super().__init__()
 
-        # data list to be loaded into database
-        self.data = data
+        # validated data list to be loaded into database
+        self.__data = data
 
     def establish_db_connection(self):
 
@@ -25,11 +25,11 @@ class LoadData(DBConnect):
     def load_data_to_dbase(self):
         pass
 
-    def _get_product_id(self, product_name):
+    def __get_product_id(self, product_name):
         pass
 
-    def _get_region_id(self, region):
+    def __get_region_id(self, region):
         pass
     
-    def _get_country_id(self, country):
+    def __get_country_id(self, country):
         pass
