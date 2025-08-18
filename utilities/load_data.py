@@ -12,16 +12,6 @@ class LoadData(DBConnect):
         # validated data list to be loaded into database
         self.__data = data
 
-    def establish_db_connection(self):
-
-        # try establishing connection
-        super().connect()
-
-    def close_db_connection(self):
-
-        # close connection
-        super().close_connection()
-
     def load_data_to_dbase(self):
         pass
 
