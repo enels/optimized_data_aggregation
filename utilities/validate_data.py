@@ -50,6 +50,9 @@ class ValidateData(DBConnect):
         cur.execute(query)
         data_types = cur.fetchall()
 
+        # close database connection
+        super().close_connection()
+
         return data_types
         
     def __get_column_names(self):
@@ -77,6 +80,9 @@ class ValidateData(DBConnect):
         cur.execute(query)
         column_names = cur.fetchall()
         
+        # close database connection
+        super().close_connection()
+
         return column_names
 
     def open_file_for_validation(self):
@@ -125,7 +131,7 @@ class ValidateData(DBConnect):
         """
 
 		# get column names
-		column_names = self.__get_column_names()
+        column_names = self.__get_column_names()
 
 
 		# get the entire total record on the dataset
@@ -134,10 +140,10 @@ class ValidateData(DBConnect):
         for idx in range(total_rows_in_data):
 
 			# checks if row has a missing value
-            if  "" in data[idx] or len(column_names) != len(data[idx]):
+            if  "" in self.__data[idx] or len(column_names) != len(self.__data[idx]):
 
-				# delete empty row or row with missing column values
-			   del(self.__data[idx]
+			   # delete empty row or row with missing column values
+               del(self.__data[idx])
     
     def validate_correct_header_names(self):
 
@@ -179,8 +185,8 @@ class ValidateData(DBConnect):
                 try:
 
                     if (column_data_types[i][0] == 'integer' and type(int(self.__data[j][i])) == int) or \
-                            (column_data_types[i][0] == 'character varying') and type(self.__data[j][i]) == str) or \
-                            (column_data_types[i][0] == 'numeric') and type(float(self.__data[j][i])) == float):
+                            (column_data_types[i][0] == 'character varying') and (type(self.__data[j][i]) == str) or \
+                            (column_data_types[i][0] == 'numeric') and (type(float(self.__data[j][i])) == float):
                         pass
                     else:
                         pass
