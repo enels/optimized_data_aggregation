@@ -121,7 +121,7 @@ class ValidateData(DBConnect):
 
         column_names = self.__get_column_names()
 
-        if len(self.__header_names) == len(column_names):
+        if len(self.__header_names) == len(column_names) - 1:
             pass
         else:
             self.__validation_errors['Validation Error: Number of columns in csv file {} \
@@ -133,17 +133,19 @@ class ValidateData(DBConnect):
             thas has missing values
         """
 
-		# get column names
+	# get column names
         column_names = self.__get_column_names()
 
+        column_names_len = len(column_names) - 1
 
-		# get the entire total record on the dataset
+
+	# get the entire total record on the dataset
         total_rows_in_data = len(self.__data)
 
         for idx in range(total_rows_in_data):
 
-			# checks if row has a missing value
-            if  "" in self.__data[idx] or len(column_names) != len(self.__data[idx]):
+	    # checks if row has a missing value
+            if  "" in self.__data[idx] or column_names_len != len(self.__data[idx]):
 
 			   # delete empty row or row with missing column values
                del(self.__data[idx])
@@ -155,21 +157,22 @@ class ValidateData(DBConnect):
         # compare lower cases of each coloumn names and
         # header names in file
 
+        column_names_len = len(column_names) - 1 # minus the index(id) column
 
         # first, make sure the length are the same
-        if len(self.__header_names) == len(column_names):
-            for idx in range(len(self.__header_names)):
+        if len(self.__header_names) == column_names_len:
+            for idx in range(1, len(column_names)): # excluding the index(id) column
 
                 # check if they are both equal - the column name from the database
                 # and the column name from the csv file
-                if self.__header_names[idx].lower() == column_names[idx][0].lower():
+                if self.__header_names[idx - 1].lower() == column_names[idx][0].lower():
                     pass
 
                 # if they are not, append false to the current validation status
                 # then break out of loop
                 else:
                     self.__validation_errors['Validation Error: Column names in csv file {} does \
-                    not match with column names in table'] = True
+not match with column names in table'] = True
                     break
 
     def validate_datatype(self):
@@ -183,11 +186,14 @@ class ValidateData(DBConnect):
         
         column_data_types = self.__get_datatypes()
 
-        for i in range(len(column_data_types)):
+        for i in range(len(column_data_types) - 1):
             for j in range(len(self.__data)):
                 try:
 
-                    if (column_data_types[i][0] == 'integer' and type(int(self.__data[j][i])) == int) or \
+                    print(column_data_types[i][0])
+                    print(self.__data[j][i])
+
+                    if (column_data_types[i][0] == 'integer' and type(self.__data[j][i]) == int) or \
                             (column_data_types[i][0] == 'character varying') and (type(self.__data[j][i]) == str) or \
                             (column_data_types[i][0] == 'numeric') and (type(float(self.__data[j][i])) == float):
                         pass
