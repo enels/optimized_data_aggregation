@@ -29,12 +29,16 @@ class LoadData(DBConnect):
 
         cur = self.conn.cursor()
 
+        print("...load data")
+
         for query in queries:
             cur.execute(query)
             self.conn.commit()
+        
+        print("Data Loaded!")
 
         super().close_connection()
-
+        
 
     def __get_product_id(self, product_name):
         pass
@@ -54,17 +58,17 @@ class LoadData(DBConnect):
         generated_queries = list()
 
         # extract the values in string format
-        values = self.__extract_values(0)
-        column_names = self.__extract_values(1)
+        values = self.__extract_data_values()
+        column_names = self.__extract_column_names()
 
         # if the id value is not set, then an insert query to be be generated 
         if id_value == None:
            # generate insert query
 
-           if self.__table_name == 'test_tbl':
-		# generates queries to insert into sales table
-              generated_queries.append("INSERT INTO {} (name, levy) VALUES{}".\
-format(self.__table_name, values))
+           if self.__table_name == 'products':
+		# generates queries to insert into product table
+              generated_queries.append("INSERT INTO {}({}) VALUES{}".\
+format(self.__table_name, column_names, values))
 
            else:
               pass
@@ -76,15 +80,31 @@ format(self.__table_name, values))
 	
         return generated_queries
               
-    def __extract_values(self, list_type):
+    def __extract_column_names(self):
+        
+        # extract the values from the data in string format
+        cnames = ""
+
+        # get number of column
+        column_length = len(self.__column_names[1:])
+
+        idx = 0
+        
+        for name in self.__column_names[1:]:
+            if idx != column_length - 1:
+                cnames += name[0] + ", "
+            else:
+                cnames += name[0]
+            idx += 1
+
+        return cnames
+
+    def __extract_data_values(self):
         
         # extract the values from the data in string format
         values = ""
 
-        if list_type == 0:
-            values_length = len(self.__data)
-        else:
-            values_length = len(self.__column_names)
+        values_length = len(self.__data)
 
         values_count = 0
         
