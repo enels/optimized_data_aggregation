@@ -153,4 +153,11 @@ required_column_ids))
         cur.execute(query)
         record = cur.fetchall()
 
-        return record[0][0]
+        try:
+            return record[0][0]
+            #record_id = record[0][0]
+        except IndexError:
+            print("IndexError Caught: The requested list index is out of range")
+            print("Check your csv data file to correct any data mismatch or inconsistency")
+            exit()
+
