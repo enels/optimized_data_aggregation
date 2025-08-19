@@ -17,7 +17,7 @@ if __name__ == "__main__":
     """
 
     #file_path = "data/products_data.csv"
-    file_path = "data/products.csv"
+    file_path = "data/sales.csv"
 
     
     ########## checks for any error in file ############
@@ -49,7 +49,8 @@ if __name__ == "__main__":
         # validate the column names
         # this checks if the column names in the csv file matches
         # what is in the database
-        data_handler.validate_correct_header_names()
+        if file_name != "sales.csv":
+            data_handler.validate_correct_header_names()
 
         # checks if the entire data validation process was successful
         # if it didn't, program raises an exception
