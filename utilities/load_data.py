@@ -29,7 +29,7 @@ class LoadData(DBConnect):
 
         cur = self.conn.cursor()
 
-        print("...load data")
+        print("...loading data")
 
         for query in queries:
             cur.execute(query)
@@ -41,7 +41,19 @@ class LoadData(DBConnect):
         
 
     def __get_product_id(self, product_name):
-        pass
+        
+        super().connect()
+        cur = self.conn.cursor()
+        
+        query = "SELECT product_id FROM products WHERE product_name = {}".format(product_name)
+
+        cur.execute(query)
+        record = cur.fetchall()
+
+        self.conn.close_connection()
+
+        return record
+        
 
     def __get_region_id(self, region):
         pass
@@ -71,12 +83,11 @@ class LoadData(DBConnect):
 format(self.__table_name, column_names, values))
 
            else:
-              pass
-              # generates queries to insert into products table
+                pass
+              # generates queries to insert into sales table
 
         else:
-              pass
-           # generates select query
+            # generates select query
 	
         return generated_queries
               
