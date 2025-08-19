@@ -32,7 +32,7 @@ class LoadData(DBConnect):
             cur.execute(query)
             self.conn.commit()
 
-        self.conn.close_connection()
+        super().close_connection()
 
 
     def __get_product_id(self, product_name):
