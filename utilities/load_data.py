@@ -38,34 +38,14 @@ class LoadData(DBConnect):
         print("Data Loaded!")
 
         super().close_connection()
-        
 
-    def __get_product_id(self, product_name):
-        
-        super().connect()
-        cur = self.conn.cursor()
-        
-        query = "SELECT product_id FROM products WHERE product_name = {}".format(product_name)
-
-        cur.execute(query)
-        record = cur.fetchall()
-
-        self.conn.close_connection()
-
-        return record
-        
-
-    def __get_region_id(self, region):
-        pass
-    
-    def __get_country_id(self, country):
-        pass
-
-    def __generate_queries(self, id_value=None):
+    def __generate_queries(self):
 
         """
           Generates queries to be executed and use to load data into database
         """
+
+        print("...generating queries")
 
         generated_queries = list()
 
@@ -74,20 +54,42 @@ class LoadData(DBConnect):
         column_names = self.__extract_column_names()
 
         # if the id value is not set, then an insert query to be be generated 
-        if id_value == None:
-           # generate insert query
 
-           if self.__table_name == 'products':
+        if self.__table_name == 'products':
 		# generates queries to insert into product table
-              generated_queries.append("INSERT INTO {}({}) VALUES{}".\
+            generated_queries.append("INSERT INTO {}({}) VALUES{}".\
 format(self.__table_name, column_names, values))
 
-           else:
-                pass
-              # generates queries to insert into sales table
-
         else:
-            # generates select query
+            # generates queries to insert into sales table
+            # first, generate ids that the _retrieve_id method
+            # will be used to identify each table for their various id retrieval
+            # since there are 3 tables who's ids are required in the sales table
+            # an iteration over a range of 3 will e required
+
+            # get number of rows in the sales dataset that is to be inserted into the sales
+            # table
+            n_rows = len(self.__data)
+
+            # iterate through each row while collecting the required column id of each data value
+            # from the various tables - products, countries, and regions
+            for row_id in range(n_rows):
+                required_column_ids = []
+
+            # iterate through each table to collect the id and generate the equivalent insert query
+                for table_id in range(3):
+                    required_column_ids.append(self.__retrieve_id(table_id, self.__data[row_id][table_id]))
+                    
+                # append the date value from the data
+                required_column_ids.append((self.__data[row_id][table_id + 1]))
+
+                required_column_ids = tuple(required_column_ids)
+
+                # Next, generate the insert query to be used to insert the various data into the
+                # sales table
+                generated_queries.append("INSERT INTO {}({}) VALUES{}".format(self.__table_name,column_names,
+required_column_ids))
+
 	
         return generated_queries
               
@@ -127,3 +129,28 @@ format(self.__table_name, column_names, values))
             values_count += 1
 
         return values
+    
+    def __retrieve_id(self, table_id, value):
+            
+        """
+            Get the required id of the row based on the data value
+        """
+
+        if table_id == 0:
+            # get product_id
+            query = "SELECT product_id FROM products WHERE product_name = '{}'".format(value)
+        elif table_id == 1:
+            # get region_id
+            query = "SELECT region_id FROM regions WHERE region_name = '{}'".format(value)
+        elif table_id == 2:
+            # get country_id
+            query = "SELECT country_id FROM countries WHERE country_name = '{}'".format(value)
+
+        super().connect()
+
+        cur = self.conn.cursor()
+
+        cur.execute(query)
+        record = cur.fetchall()
+
+        return record[0][0]
