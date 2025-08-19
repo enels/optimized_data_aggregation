@@ -13,7 +13,7 @@ class LoadData(DBConnect):
         self.__data = data
         self.__column_names = column_names
         self.__table_name = table_name
-
+        self.__line_no = 1 # for tracking the exact line number where erro may occur in csv file
 
     def load_data_to_dbase(self):
 
@@ -76,6 +76,7 @@ format(self.__table_name, column_names, values))
             for row_id in range(n_rows):
                 required_column_ids = []
 
+                self.__line_no += 1
             # iterate through each table to collect the id and generate the equivalent insert query
                 for table_id in range(3):
                     required_column_ids.append(self.__retrieve_id(table_id, self.__data[row_id][table_id]))
@@ -158,6 +159,7 @@ required_column_ids))
             #record_id = record[0][0]
         except IndexError:
             print("IndexError Caught: The requested list index is out of range")
-            print("Check your csv data file to correct any data mismatch or inconsistency")
+            print("Check line number {} in {}.csv data file to correct any data mismatch or \
+inconsistency".format(self.__line_no, self.__table_name))
             exit()
 
