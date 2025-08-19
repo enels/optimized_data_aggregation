@@ -55,7 +55,7 @@ class ValidateData(DBConnect):
 
         return data_types
         
-    def __get_column_names(self):
+    def get_column_names(self):
 
         """
             Get the column names from the designated table for
@@ -115,7 +115,7 @@ class ValidateData(DBConnect):
 
     def  validate_num_of_columns(self):
 
-        column_names = self.__get_column_names()
+        column_names = self.get_column_names()
 
         if len(self.__header_names) == len(column_names) - 1:
             pass
@@ -130,7 +130,7 @@ class ValidateData(DBConnect):
         """
 
 	# get column names
-        column_names = self.__get_column_names()
+        column_names = self.get_column_names()
 
         column_names_len = len(column_names) - 1
 
@@ -148,7 +148,7 @@ class ValidateData(DBConnect):
     
     def validate_correct_header_names(self):
 
-        column_names = self.__get_column_names()
+        column_names = self.get_column_names()
 
         # compare lower cases of each coloumn names and
         # header names in file

@@ -5,12 +5,13 @@ from db_connect import DBConnect
 class LoadData(DBConnect):
 
     
-    def __init__(self, data, table_name):
+    def __init__(self, data, column_names, table_name):
 
         super().__init__()
 
         # validated data list to be loaded into database
         self.__data = data
+        self.__column_names = column_names
         self.__table_name = table_name
 
 
@@ -53,7 +54,8 @@ class LoadData(DBConnect):
         generated_queries = list()
 
         # extract the values in string format
-        values = self.__extract_values()
+        values = self.__extract_values(0)
+        column_names = self.__extract_values(1)
 
         # if the id value is not set, then an insert query to be be generated 
         if id_value == None:
@@ -74,11 +76,16 @@ format(self.__table_name, values))
 	
         return generated_queries
               
-    def __extract_values(self):
+    def __extract_values(self, list_type):
         
         # extract the values from the data in string format
         values = ""
-        values_length = len(self.__data)
+
+        if list_type == 0:
+            values_length = len(self.__data)
+        else:
+            values_length = len(self.__column_names)
+
         values_count = 0
         
         for value in self.__data:

@@ -78,10 +78,9 @@ if __name__ == "__main__":
 
     # create the object to load the validated data into the database
     table_name = file_name.split(".")[0]
-    validated_data_handler = LoadData(validated_data, table_name)
+    column_names = data_handler.get_column_names()
+
+    validated_data_handler = LoadData(validated_data, column_names, table_name)
 
     # load data into database
     validated_data_handler.load_data_to_dbase()
-
-    # close database connection
-    #validated_data_handler.close_db_connection()
