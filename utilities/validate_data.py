@@ -131,8 +131,8 @@ does not match with number of columns in table'] = True
             if column_names[idx] == self.__header_names[idx]:
                 pass
             else:
-                self.__validation_errors['Validation Error: Column names in csv file is not in the same order as
-the table column names order'] = True
+                self.__validation_errors['Validation Error: Column names in csv file is not in the same order \
+as the table column names order'] = True
 
     def validate_delimiter_consistency(self):
         """
