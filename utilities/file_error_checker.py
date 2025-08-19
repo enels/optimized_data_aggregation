@@ -44,9 +44,8 @@ class FileErrorCheck:
                 csv_reader = csv.reader(csv_file, delimiter=',')
 
         except FileNotFoundError:
-            self._extract_file_name()
-            self.__file_errors["Error: The csv file with name {} cannot be found".format(self.__file_name)] = \
-            True
+            self.__extract_file_name()
+            self.__file_errors["Error: The csv file with name {} cannot be found".format(self.__file_name)] = True
 
         # check for bad file format
         except csv.Error as e:

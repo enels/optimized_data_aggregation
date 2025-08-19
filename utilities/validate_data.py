@@ -121,7 +121,7 @@ class ValidateData(DBConnect):
             pass
         else:
             self.__validation_errors['Validation Error: Number of columns in csv file {} \
-                    does not match with number of columns in table'] = True
+does not match with number of columns in table'] = True
             
     def validate_delimiter_consistency(self):
         """
