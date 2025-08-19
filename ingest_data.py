@@ -26,19 +26,21 @@ if __name__ == "__main__":
 
     "get the file name"
     file_name = status.get_file_name()
+    print(file_name)
 
+    # check for any error(s) in file
+    file_errors = status.get_file_errors()
+    
+    # if there were file errors, skips file validation process
+    if len(file_errors) > 0:
+       for k,v in file_errors.items():
+          print(k)
+    else:
+       ########### validate data in file #############
+       data_handler = ValidateData(file_path)
 
-
-    ########### validate data in file #############
-
-    data_handler = ValidateData(file_path)
-
-    # first, open file for validation
-    try:
+       # first, open file for validation
        data_handler.open_file_for_validation()
-
-       # remove any initial white spaces
-       # data_handler.remove_any_initial_whitespace()
 
        # validate number of columns in the csv file
        data_handler.validate_num_of_columns()
@@ -52,40 +54,34 @@ if __name__ == "__main__":
        # if it didn't, program raises an exception
        validation_errors = data_handler.get_validation_errors()
     
-       if len(validation_errors) > 0:
-          for k,v in validation_errors.items():
-             print(k.format(file_name))
-          raise Exception ("Data was not loaded into database due to validation error(s).")
-
-       data_handler.validate_datatype()
-
        # validate the consistency of the delimiter
        data_handler.validate_delimiter_consistency()
 
-
        # validate the datatype of the various data on the columns
        # of the csv file
-       data_handler.validate_datatype()
+       #data_handler.validate_datatype()
 
 
        # if none of fthe above validation failes, get the validated data
        # Note that validated data is in List of Tuples
        validated_data = data_handler.get_validated_data()
-    except Exception as e:
-       print("Error Validating file")
 
-    """
+    # checks if there were errors in file validation process,skips data loading
+    if len(validation_errors) > 0:
+       for k,v in validation_errors.items():
+          print(k.format(file_name))
+       raise Exception ("Data was not loaded into database due to validation error(s).")
+    else:
+       print("...load data")
+
     ########## Load Validated Data Into Database ###################
 
     # create the object to load the validated data into the database
-    validated_data_handler = LoadData(validated_data)
-
-    # establish connection to database
-    validated_data_handler.establish_db_connection()
+    table_name = file_name.split(".")[0]
+    validated_data_handler = LoadData(validated_data, table_name)
 
     # load data into database
     validated_data_handler.load_data_to_dbase()
 
     # close database connection
-    validated_data_handler.close_db_connection()
-    """
+    #validated_data_handler.close_db_connection()
