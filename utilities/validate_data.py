@@ -123,6 +123,17 @@ class ValidateData(DBConnect):
             self.__validation_errors['Validation Error: Number of columns in csv file {} \
 does not match with number of columns in table'] = True
             
+    def validate_order_of_column_names(self):
+        
+        column_names = self.get_column_names()
+
+        for idx in range(len(column_names)):
+            if column_names[idx] == self.__header_names[idx]:
+                pass
+            else:
+                self.__validation_errors['Validation Error: Column names in csv file is not in the same order as
+the table column names order'] = True
+
     def validate_delimiter_consistency(self):
         """
             Validates delimiter consistency across the data and eliminates rows
