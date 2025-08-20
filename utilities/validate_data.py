@@ -120,19 +120,19 @@ class ValidateData(DBConnect):
         if len(self.__header_names) == len(column_names) - 1:
             pass
         else:
-            self.__validation_errors['Validation Error: Number of columns in csv file {} \
-does not match with number of columns in table'] = True
+            self.__validation_errors['ColumnNamesCountError'] = 'Number of columns in csv file {} \
+does not match with number of columns in table'
             
     def validate_order_of_column_names(self):
         
         column_names = self.get_column_names()
 
-        for idx in range(len(column_names)):
+        for idx in range(len(column_names)-1):
             if column_names[idx] == self.__header_names[idx]:
                 pass
             else:
-                self.__validation_errors['Validation Error: Column names in csv file is not in the same order \
-as the table column names order'] = True
+                self.__validation_errors['ColumnNamesOrderMismatchError'] = 'Column names in csv file is not in the same order \
+as the table column names order'
 
     def validate_delimiter_consistency(self):
         """
@@ -178,8 +178,8 @@ as the table column names order'] = True
                 # if they are not, append false to the current validation status
                 # then break out of loop
                 else:
-                    self.__validation_errors['Validation Error: Column names in csv file {} does \
-not match with column names in table'] = True
+                    self.__validation_errors['ColumnNameMismatchError'] = 'Column names in csv file {} does \
+not match with column names in table'
                     break
 
     def validate_datatype(self):
@@ -207,7 +207,7 @@ not match with column names in table'] = True
                     else:
                         pass
                 except ValueError:
-                    self.__validation_errors['Validation Error: Invalid data type in csv file'] = True
+                    self.__validation_errors['DataTypeError: '] = 'Invalid data type in csv file'
 
     def get_validated_data(self):
         

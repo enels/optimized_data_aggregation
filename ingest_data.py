@@ -17,7 +17,7 @@ if __name__ == "__main__":
     """
 
     #file_path = "data/products_data.csv"
-    file_path = "data/sales.csv"
+    file_path = "data/products.csv"
 
     
     ########## checks for any error in file ############
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         # checks if there were errors in file validation process,skips data loading
         if len(validation_errors) > 0:
             for k,v in validation_errors.items():
-                print(k.format(file_name))
+                print("{0}: {1}".format(k, v))
 
         ########## Load Validated Data Into Database ###################
 
