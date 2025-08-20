@@ -127,8 +127,11 @@ does not match with number of columns in table'
         
         column_names = self.get_column_names()
 
-        for idx in range(len(column_names)-1):
-            if column_names[idx] == self.__header_names[idx]:
+        # exclude the product_id from the database table
+        column_names = column_names[1:]
+
+        for idx in range(len(column_names))
+            if column_names[idx][0] == self.__header_names[idx]:
                 pass
             else:
                 self.__validation_errors['ColumnNamesOrderMismatchError'] = 'Column names in csv file is not in the same order \
@@ -216,3 +219,11 @@ not match with column names in table'
     def get_validation_errors(self):
         
         return self.__validation_errors
+
+    def check_for_availability_of_column_names(self):
+        
+        # get column names of database table
+        #table_column_names = self.get_column_names()
+
+        # column names from dataset is already set after trying to open file
+        #print(table_column_names[2][0])
