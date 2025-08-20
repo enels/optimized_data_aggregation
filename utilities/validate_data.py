@@ -130,7 +130,7 @@ does not match with number of columns in table'
         # exclude the product_id from the database table
         column_names = column_names[1:]
 
-        for idx in range(len(column_names))
+        for idx in range(len(column_names)):
             if column_names[idx][0] == self.__header_names[idx]:
                 pass
             else:
@@ -223,7 +223,23 @@ not match with column names in table'
     def check_for_availability_of_column_names(self):
         
         # get column names of database table
-        #table_column_names = self.get_column_names()
+        table_column_names = self.get_column_names()
 
         # column names from dataset is already set after trying to open file
-        #print(table_column_names[2][0])
+        print(f'Testing {table_column_names[2][0]}')
+
+        # eliminate the first column which is the product_id that is not present
+        # in the dataset
+        table_column_names = table_column_names[1:]
+
+        idx = 0
+        for name in self.__header_names:
+            if name in table_column_names[idx][0]:
+                idx += 1
+            else:
+                self.__validation_errors['MissingColumnName'] = 'It seems one or more column(s) are missing from yoru dataset'
+
+                # the program exits since there's no point validating other things if there are missing columns
+                # on the dataset
+                print("error")
+                exit()

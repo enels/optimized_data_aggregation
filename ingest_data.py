@@ -45,6 +45,8 @@ if __name__ == "__main__":
             # first, open file for validation
             data_handler.open_file_for_validation()
 
+            #exit()
+
             # validate number of columns in the csv file
             data_handler.validate_num_of_columns()
 
@@ -57,6 +59,8 @@ if __name__ == "__main__":
                 # checks the order of arrangement of the column names of
                 # both the csv file and the table from database
                 data_handler.validate_order_of_column_names()
+                
+                data_handler.check_for_availability_of_column_names()
 
             # checks if the entire data validation process was successful
             # if it didn't, program raises an exception
