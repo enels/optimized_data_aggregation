@@ -29,13 +29,13 @@ class LoadData(DBConnect):
 
         cur = self.conn.cursor()
 
-        print("...loading data")
+        print("...executing queries/ingesting data")
 
         for query in queries:
             cur.execute(query)
             self.conn.commit()
         
-        print("Data Loaded!")
+        print("Data Ingested!")
 
         super().close_connection()
 
@@ -45,7 +45,7 @@ class LoadData(DBConnect):
           Generates queries to be executed and use to load data into database
         """
 
-        print("...generating queries")
+        print("...generating queries for the {} table".format(self.__table_name))
 
         generated_queries = list()
 
@@ -139,13 +139,13 @@ required_column_ids))
 
         if table_id == 0:
             # get product_id
-            query = "SELECT product_id FROM products WHERE product_name = '{}'".format(value)
+            query = "SELECT product_id FROM products WHERE LOWER(product_name) = '{}'".format(value.strip().lower())
         elif table_id == 1:
             # get region_id
-            query = "SELECT region_id FROM regions WHERE region_name = '{}'".format(value)
+            query = "SELECT region_id FROM regions WHERE LOWER(region_name) = '{}'".format(value.strip().lower())
         elif table_id == 2:
             # get country_id
-            query = "SELECT country_id FROM countries WHERE country_name = '{}'".format(value)
+            query = "SELECT country_id FROM countries WHERE LOWER(country_name) = '{}'".format(value.strip().lower())
 
         super().connect()
 
