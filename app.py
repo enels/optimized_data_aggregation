@@ -24,7 +24,7 @@ def index():
     cur = conn.cursor()
 
     cur.execute("SELECT EXTRACT (MONTH FROM date) AS month, EXTRACT (YEAR FROM date) as year, \
-                region_name, COUNT(product_id) * products.price AS total_sales, product_name \
+                region_name, COUNT(product_id) AS quantity_sold, COUNT(product_id) * products.price AS total_sales, product_name \
                 FROM sales LEFT JOIN products USING(product_id) \
                 LEFT JOIN regions USING (region_id) GROUP BY \
                 (month, year, products.price, product_name, region_name) ORDER BY month ASC")
@@ -43,7 +43,7 @@ def get_product_by_id(product_id):
 
     try:
         cur.execute("SELECT EXTRACT (MONTH FROM date) AS month, EXTRACT (YEAR FROM date) as year, \
-                region_name, COUNT(product_id) * products.price AS total_sales, product_name \
+                region_name, COUNT(product_id) AS quantity_sold, COUNT(product_id) * products.price AS total_sales, product_name \
                 FROM sales LEFT JOIN products USING(product_id) \
                 LEFT JOIN regions USING (region_id) WHERE product_id = {} GROUP BY \
                 (month, year, products.price, product_name, region_name) ORDER BY month ASC".format(product_id))
