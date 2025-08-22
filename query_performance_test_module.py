@@ -50,6 +50,23 @@ class TestQueryPerformance(unittest.TestCase):
 
         self.assertLess(execution_time, 0.001)
 
+    def test_monthly_sales_summary_query_performance_filtering_by_region(self):
+            
+        query = "SELECT EXTRACT (MONTH FROM date) AS month, EXTRACT (YEAR FROM date) as year, region_name, \
+                COUNT(product_id) AS quantity_sold, COUNT(product_id) * products.price AS \
+                 total_sales, product_name FROM sales LEFT JOIN products USING(product_id) \
+                 LEFT JOIN regions USING (region_id) WHERE region_id = {} GROUP BY \
+                 (month, year, products.price, product_name, region_name) ORDER BY month ASC;".format(3)
+                
+        start_time = time.time()
+        self.cursor.execute(query)
+        self.cursor.fetchall()
+        end_time = time.time()
+        execution_time = end_time - start_time
+
+        print("Execution time: {:.4f}".format(execution_time))
+
+        self.assertLess(execution_time, 0.001)
 
 if __name__ == '__main__':
     unittest.main()
