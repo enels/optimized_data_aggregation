@@ -1,17 +1,21 @@
-import psycopg2#, jsonify
+import psycopg2
 from flask import Flask, jsonify, make_response
+from db_connect import DBConnect
 
 app = Flask(__name__)
 
 def get_connection():
 
-    conn = psycopg2.connect("dbname=testdb user=postgres password=9@$$w07D")
+    # instantiate the connection class
+    conn = DBConnect()
 
-    print("Connection Successful")
+    # connect to the database
+    conn.connect()
 
-    return conn
+    # return the connection
+    return conn.conn
 
-@app.route("/users", methods = ['GET'])
+@app.route("/products", methods = ['GET'])
 def index():
 
     print(psycopg2.__version__)
@@ -19,38 +23,22 @@ def index():
     conn = get_connection()
     cur = conn.cursor()
 
-    #cur.execute("SELECT json_agg(q) AS tbl FROM(SELECT * FROM test_tbl) AS q") 
-    cur.execute("SELECT * FROM test_tbl") 
+    cur.execute("SELECT product_name, price*5 AS new_price FROM products ORDER BY new_price ASC LIMIT 5")
 
     records = cur.fetchall()
     conn.close()
 
     return make_response(jsonify(records))
 
-@app.route("/addusers", methods = ['POST'])
-def addusers():
 
-    conn = get_connection()
-
-    cur = conn.cursor()
-    try:
-        cur.execute("INSERT INTO test_tbl (name) VALUES('Magdalene')")
-        conn.commit()
-    except Exception as e:
-        print("Error: ", e)
-    finally:
-        conn.close()
-    
-    return make_response(jsonify({"name": "Magdalene"}), 201)
-
-@app.route("/getuser/<id>", methods = ['GET'])
-def get_users_by_id(id):
+@app.route("/products/<product_id>", methods = ['GET'])
+def get_product_by_id(product_id):
 
     conn = get_connection()
     cur = conn.cursor()
 
     try:
-        cur.execute("SELECT * FROM test_tbl WHERE id = {}".format(id))
+        cur.execute("SELECT * FROM products WHERE product_id = {}".format(product_id))
     except Exception as e:
         print("Error: ", e)
     
@@ -58,4 +46,24 @@ def get_users_by_id(id):
     cur.close() # close cursor
 
     return make_response(jsonify(records))
-        
+
+
+@app.route("/products/<product_id>", methods = ['GET'])
+def get_sales_by_region(region_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        cur.execute("SELECT * FROM sales WHERE product_id = {}".format(sales_id))
+    except Exception as e:
+        print("Error: ", e)
+    
+    records = cur.fetchall();
+    cur.close() # close cursor
+
+    return make_response(jsonify(records))
+
+
+if __name__ == "__main__":
+    app.run()
