@@ -15,7 +15,7 @@ def get_connection():
     # return the connection
     return conn.conn
 
-@app.route("/products", methods = ['GET'])
+@app.route("/monthly-sales-summaries", methods = ['GET'])
 def index():
 
     print(psycopg2.__version__)
@@ -23,7 +23,11 @@ def index():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("SELECT product_name, price*5 AS new_price FROM products ORDER BY new_price ASC LIMIT 5")
+    cur.execute("SELECT EXTRACT (MONTH FROM date) AS month, EXTRACT (YEAR FROM date) as year, \
+                region_name, COUNT(product_id) * products.price AS total_sales, product_name \
+                FROM sales LEFT JOIN products USING(product_id) \
+                LEFT JOIN regions USING (region_id) GROUP BY \
+                (month, year, products.price, product_name, region_name) ORDER BY month ASC")
 
     records = cur.fetchall()
     conn.close()
