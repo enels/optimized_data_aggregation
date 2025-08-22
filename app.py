@@ -35,14 +35,19 @@ def index():
     return make_response(jsonify(records))
 
 
-@app.route("/products/<product_id>", methods = ['GET'])
+@app.route("/monthly-sales-summaries/<product_id>", methods = ['GET'])
 def get_product_by_id(product_id):
 
     conn = get_connection()
     cur = conn.cursor()
 
     try:
-        cur.execute("SELECT * FROM products WHERE product_id = {}".format(product_id))
+        cur.execute("SELECT EXTRACT (MONTH FROM date) AS month, EXTRACT (YEAR FROM date) as year, \
+                region_name, COUNT(product_id) * products.price AS total_sales, product_name \
+                FROM sales LEFT JOIN products USING(product_id) \
+                LEFT JOIN regions USING (region_id) WHERE product_id = {} GROUP BY \
+                (month, year, products.price, product_name, region_name) ORDER BY month ASC".format(product_id))
+
     except Exception as e:
         print("Error: ", e)
     
