@@ -35,7 +35,7 @@ def index():
     return make_response(jsonify(records))
 
 
-@app.route("/monthly-sales-summaries/<product_id>", methods = ['GET'])
+@app.route("/monthly-sales-summaries/product/<product_id>", methods = ['GET'])
 def get_product_by_id(product_id):
 
     conn = get_connection()
