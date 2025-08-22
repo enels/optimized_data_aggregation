@@ -56,15 +56,19 @@ def get_product_by_id(product_id):
 
     return make_response(jsonify(records))
 
-
-@app.route("/products/<product_id>", methods = ['GET'])
-def get_sales_by_region(region_id):
+@app.route("/monthly-sales-summaries/region/<region_id>", methods = ['GET'])
+def get_region_by_id(region_id):
 
     conn = get_connection()
     cur = conn.cursor()
 
     try:
-        cur.execute("SELECT * FROM sales WHERE product_id = {}".format(sales_id))
+        cur.execute("SELECT EXTRACT (MONTH FROM date) AS month, EXTRACT (YEAR FROM date) as year, \
+                region_name, COUNT(product_id) AS quantity_sold, COUNT(product_id) * products.price AS total_sales, product_name \
+                FROM sales LEFT JOIN products USING(product_id) \
+                LEFT JOIN regions USING (region_id) WHERE region_id = {} GROUP BY \
+                (month, year, products.price, product_name, region_name) ORDER BY month ASC".format(region_id))
+
     except Exception as e:
         print("Error: ", e)
     
