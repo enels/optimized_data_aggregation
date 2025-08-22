@@ -99,5 +99,26 @@ enddate))
 
     return make_response(jsonify(records))
 
+@app.route("/top-five-ranked", methods = ['GET'])
+def get_the_top_five_products_by_revenue():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+       cur.execute("SELECT product_id, product_name, COUNT(product_id) * price AS total_revenue \
+                    FROM sales LEFT JOIN products USING(product_id) \
+                    GROUP BY (price,product_id,product_name) \
+                    ORDER BY total_revenue DESC LIMIT 5")
+
+    except Exception as e:
+        print("Error: ", e)
+    
+    records = cur.fetchall();
+    cur.close() # close cursor
+
+    return make_response(jsonify(records))
+
+
 if __name__ == "__main__":
     app.run()
