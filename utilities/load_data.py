@@ -156,10 +156,9 @@ required_column_ids))
 
         try:
             return record[0][0]
-            #record_id = record[0][0]
         except IndexError:
             print("IndexError Caught: The requested list index is out of range")
             print("Check line number {} in {}.csv data file to correct any data mismatch or \
-inconsistency".format(self.__line_no, self.__table_name))
+inconsistency. You might have inconsistent data in datasets".format(self.__line_no, self.__table_name))
             exit()
 
