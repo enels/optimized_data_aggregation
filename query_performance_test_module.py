@@ -28,7 +28,7 @@ class TestQueryPerformance(unittest.TestCase):
         end_time = time.time()
         execution_time = end_time - start_time
 
-        print("Execution time: {:.4f}".format(execution_time))
+        print("Monthly Sales Summaries Execution time: {:.4f}".format(execution_time))
 
         self.assertLess(execution_time, 0.001)
 
@@ -46,7 +46,7 @@ class TestQueryPerformance(unittest.TestCase):
         end_time = time.time()
         execution_time = end_time - start_time
 
-        print("Execution time: {:.4f}".format(execution_time))
+        print("Monthly Summaries by Product Execution time: {:.4f} seconds".format(execution_time))
 
         self.assertLess(execution_time, 0.001)
 
@@ -64,7 +64,7 @@ class TestQueryPerformance(unittest.TestCase):
         end_time = time.time()
         execution_time = end_time - start_time
 
-        print("Execution time: {:.4f}".format(execution_time))
+        print("Monthly Summaries by Region Execution time: {:.4f}seconds".format(execution_time))
 
         self.assertLess(execution_time, 0.001)
 
@@ -83,14 +83,14 @@ ASC;".format('2024-02-01','2024-03-30')
         end_time = time.time()
         execution_time = end_time - start_time
 
-        print("Execution time: {:.4f}".format(execution_time))
+        print("Monthly Summaries by Range Execution time: {:.4f}seconds".format(execution_time))
 
         self.assertLess(execution_time, 0.001)
 
     def test_query_performance_for_the_top_five_revenue(self):
             
         query = "SELECT product_id, product_name, COUNT(product_id) * price AS total_revenue \
-                 FROM sales LEFT JOIN products USING(product_id) \
+                 FROM sales INNER JOIN products USING(product_id) \
                  GROUP BY (price,product_id,product_name) \
                  ORDER BY total_revenue DESC LIMIT 5"
                 
@@ -100,7 +100,7 @@ ASC;".format('2024-02-01','2024-03-30')
         end_time = time.time()
         execution_time = end_time - start_time
 
-        print("Execution time: {:.4f}".format(execution_time))
+        print("Monthly Summaries by Top 5 Revenue Products Execution time: {:.4f}seconds".format(execution_time))
 
         self.assertLess(execution_time, 0.001)
 
