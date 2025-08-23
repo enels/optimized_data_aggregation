@@ -107,7 +107,7 @@ def get_the_top_five_products_by_revenue():
 
     try:
        cur.execute("SELECT product_id, product_name, COUNT(product_id) * price AS total_revenue \
-                    FROM sales INNER JOIN products USING(product_id) \
+                    FROM sales LEFT JOIN products USING(product_id) \
                     GROUP BY (price,product_id,product_name) \
                     ORDER BY total_revenue DESC LIMIT 5")
 
