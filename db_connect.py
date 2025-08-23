@@ -16,7 +16,6 @@ class DBConnect:
         
             Initiate a connection to the database using the initialized connection parameters
         """
-
         try:
             self.conn = psycopg2.connect("dbname={0} user={1} password={2}".format(self.db_name, self.db_user, self.db_password))
 
