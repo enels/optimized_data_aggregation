@@ -13,8 +13,9 @@ class FileErrorCheck:
     
     def __extract_file_name(self):
 
-        """
-            Extracts the file name
+        """Returns null
+
+            Extracts the file name and set the instance file name variable
         """
 
         if "/" in self.__file_path:
@@ -22,7 +23,12 @@ class FileErrorCheck:
         else:
             self.__file_name = self.__file_path
 
-    def get_file_name(self):
+    def get_file_name(self) -> str:
+
+        """Returns the file name
+
+            Get the file name from the __extract_file_name method
+        """
 
         # checks file for errors
         self.__check_file()
@@ -36,6 +42,15 @@ class FileErrorCheck:
         return self.__file_name
 
     def __check_file(self):
+
+        """Returns null
+
+            Checks file for 4 different types of errors
+            - Missing file
+            - Error in file
+            - File character format
+            - Other types of miscellaneous errors
+        """
 
 
         try:
@@ -61,5 +76,9 @@ class FileErrorCheck:
             self.__file_errors["Error: Unexpected error in file {}".format(e)] = True
     
     def get_file_errors(self):
+
+        """
+            Return the file error dictionary
+        """
 
         return self.__file_errors
