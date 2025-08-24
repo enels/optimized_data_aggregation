@@ -60,20 +60,21 @@ class FileErrorCheck:
 
         except FileNotFoundError:
             self.__extract_file_name()
-            self.__file_errors["Error: The csv file with name {} cannot be found".format(self.__file_name)] = True
+            self.__file_errors[FileNotFoundError] = "Error: The csv file with name {} cannot be \
+found".format(self.__file_name)
 
         # check for bad file format
         except csv.Error as e:
-            self.__file_errors["Error: {}".format(e)] = True
+            self.__file_errors[BadFileError] = "Error: {}".format(e)
 
         # check for characters that are outside the unicode system
         except UnicodeDecodeError:
-            self.__file_errors["Error: file contains illegal character"] = True
+            self.__file_errors[UnicodeDecodeError] = "Error: file contains illegal character"
 
 
         # Miscellaneuos errors
         except Exception as e:
-            self.__file_errors["Error: Unexpected error in file {}".format(e)] = True
+            self.__file_errors[MiscError] = "Error: Unexpected error in file {}".format(e)
     
     def get_file_errors(self):
 
