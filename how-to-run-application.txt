@@ -27,8 +27,8 @@ or through git clone, follow the steps below to sucessfully ingest and run the a
 Endpoints created
 -----------------
 Monthly sales summary: /monthly-sales-summaries
-Monthly sales summary by product: /monthly-sales-summaries/product/<product_id>
-Monthly sales summary by region: /monthly-sales-summaries/region/<region_id>
+Monthly sales summary by product: /monthly-sales-summaries/product/<id>
+Monthly sales summary by region: /monthly-sales-summaries/region/<id>
 Monthly sales summary by date range: /monthly-sales-summaries/date-range/<startdate>/<enddate>
 Top 5 ranked products based on revenue: /top-five-ranked
 
