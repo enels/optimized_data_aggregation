@@ -5,20 +5,22 @@ from utilities.file_error_checker import FileErrorCheck
 if __name__ == "__main__":
     
     """
-        the data is a list of csv files that is stored in the data variable
-        the program loops through the data list and collect each of the file
+        The data to be ingested into the database is a list of csv files 
+        that is stored in a directory(located in the same directory as this
+        file).
+        
+        The program loops through the data list and collect each of the file
         stored in the list index for error checking and validation.
 
-        All you have to do is make changes to the database connection file to match
-        what you have and add more files to the the data list object for iteration
+        If the program encounters any error during error checking, it terminates
+        the program flow.
 
-        But first, make sure you have created a database and create tables in it to match
-        the possible columns you may have in the csv file.
+        During valudation, if it encounteres any validation eror, the program won't
+        run the code to ingest data into the database.
+
     """
 
-    #file_path = "data/products_data.csv"
     files_path = ["data/products.csv", "data/sales.csv"]
-
     
     ########## checks for any error in file ############
 
@@ -46,8 +48,6 @@ if __name__ == "__main__":
             # first, open file for validation
             data_handler.open_file_for_validation()
 
-            #exit()
-
             # validate number of columns in the csv file
             data_handler.validate_num_of_columns()
 
@@ -67,14 +67,6 @@ if __name__ == "__main__":
             # if it didn't, program raises an exception
             validation_errors = data_handler.get_validation_errors()
         
-            # validate the consistency of the delimiter
-            #data_handler.validate_delimiter_consistency()
-
-            # validate the datatype of the various data on the columns
-            # of the csv file
-            #data_handler.validate_datatype()
-
-
             # if none of fthe above validation failes, get the validated data
             # Note that validated data is in List of Tuples
             validated_data = data_handler.get_validated_data()
@@ -93,5 +85,5 @@ if __name__ == "__main__":
 
                 validated_data_handler = LoadData(validated_data, column_names, table_name)
 
-                # load data into database
+                # ingest data into database
                 validated_data_handler.load_data_to_dbase()
