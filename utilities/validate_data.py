@@ -17,7 +17,7 @@ class ValidateData(DBConnect):
 
         super().__init__()
 
-    def __get_table_name(self):
+    def __get_table_name(self) -> str:
 
         """ Get the table name that the data
             will be ingested into
@@ -30,10 +30,11 @@ class ValidateData(DBConnect):
 
         return table_name
 
-    def __get_datatypes(self):
+    def __get_datatypes(self) -> list:
 
 
-        """
+        """Return the datatypes found
+
             Get the datatypes of the table column names
         """
 
@@ -55,7 +56,7 @@ class ValidateData(DBConnect):
 
         return data_types
         
-    def get_column_names(self):
+    def get_column_names(self) -> list:
 
         """
             Get the column names from the designated table for
