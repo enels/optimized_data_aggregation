@@ -32,12 +32,13 @@ if __name__ == "__main__":
         # check for any error(s) in file
         file_errors = status.get_file_errors()
 
-        #validation_errors = dict()
-        
         # if there were file errors, skips file validation process
         if len(file_errors) > 0:
             for k,v in file_errors.items():
                 print("{0}: {1}".format(k, v))
+                
+                # exists program if file error found
+                quit()
         else:
             ########### validate data in file #############
             data_handler = ValidateData(file_path)
