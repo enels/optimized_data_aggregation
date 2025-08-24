@@ -1,0 +1,39 @@
+Instructions on how to ingest the data into the database and run the application
+================================================================================
+
+NOTE: Make sure you have all the required software in the requirements.txt file
+      installed in your container (virtual environment or docker) or host machine before attempting to run the
+      application or ingest the data
+
+After successfully downloading the application from github either directly in zip format
+or through git clone, follow the steps below to sucessfully ingest and run the application
+
+1.) Create a database called 'shopdb' in your postgresql database using the command 
+    CREATE DATABASE shopdb
+
+2.) Run the command to restore the database and its tables in your newly created database 
+    psql -U postgres -f shop.sql
+
+3.) Run this command to ingest the data in the data/ folder into the newly created database
+    python ingest_data.py
+
+4.) Run the RestAPI application with the command
+    python app.py
+
+5.) You can use either your browser, postman, or swagger or any of your favourite tool to run the created
+    API endpoints to retrieve resources from the database.
+
+
+Endpoints created
+-----------------
+Monthly sales summary: /monthly-sales-summaries
+Monthly sales summary by product: /monthly-sales-summaries/product/<product_id>
+Monthly sales summary by region: /monthly-sales-summaries/region/<region_id>
+Monthly sales summary by date range: /monthly-sales-summaries/date-range/<startdate>/<enddate>
+Top 5 ranked products based on revenue: /top-five-ranked
+
+The product_id and region_id, startdate, and enddate are resource values from the database
+The date range was designed to fall between January 2024 and December 2024
+
+To run the unittests, run the file
+python query_performance_test_module.py
