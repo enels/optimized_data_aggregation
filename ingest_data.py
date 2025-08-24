@@ -17,7 +17,7 @@ if __name__ == "__main__":
     """
 
     #file_path = "data/products_data.csv"
-    files_path = ["data/productss.csv", "data/sales.csv"]
+    files_path = ["data/products.csv", "data/sales.csv"]
 
     
     ########## checks for any error in file ############
