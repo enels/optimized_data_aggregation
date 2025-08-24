@@ -6,6 +6,9 @@ from db_connect import DBConnect
 
 
 class ValidateData(DBConnect):
+    """
+        Contains methods that checks for the validation of the csv file. 
+    """
 
 
     def __init__(self, file_path):
@@ -88,6 +91,12 @@ class ValidateData(DBConnect):
 
     def open_file_for_validation(self):
 
+        """
+            First method that runs during file validation
+            Opens the file to skipp through any whitespaces
+            Get the column headers names
+            Append the data contents in a tuple
+        """
         n_nonempty_rows = 0
         with open(self.file_path) as csv_file:
 
@@ -116,6 +125,11 @@ class ValidateData(DBConnect):
 
     def  validate_num_of_columns(self):
 
+        """
+            Make sure the number of columns on the table
+            Is equal to the number of columns in the csv file
+        """
+
         column_names = self.get_column_names()
 
         if len(self.__header_names) == len(column_names) - 1:
@@ -126,6 +140,11 @@ does not match with number of columns in table'
             
     def validate_order_of_column_names(self):
         
+        """
+            Make sure the order of arrangement of the column names
+            in both the csv file and table are the same
+        """
+
         column_names = self.get_column_names()
 
         # exclude the product_id from the database table
@@ -162,6 +181,12 @@ as the table column names order'
                del(self.__data[idx])
     
     def validate_correct_header_names(self):
+
+        """
+            Checks if the header names in the csv file are
+            equal to the column names on the table in terms of
+            spelling
+        """
 
         column_names = self.get_column_names()
 
@@ -213,16 +238,20 @@ not match with column names in table'
                 except ValueError:
                     self.__validation_errors['DataTypeError: '] = 'Invalid data type in csv file'
 
-    def get_validated_data(self):
+    def get_validated_data(self) -> list:
         
         return self.__data
 
-    def get_validation_errors(self):
+    def get_validation_errors(self) -> dict:
         
         return self.__validation_errors
 
     def check_for_availability_of_column_names(self):
         
+        """
+            Check for the availability of column names in the
+            csv file.
+        """
         # get column names of database table
         table_column_names = self.get_column_names()
 
@@ -230,7 +259,7 @@ not match with column names in table'
         print(f'Testing {table_column_names[2][0]}')
 
         # eliminate the first column which is the product_id that is not present
-        # in the dataset
+        # in the dataset and not needed during data ingestion
         table_column_names = table_column_names[1:]
 
         idx = 0
@@ -242,5 +271,4 @@ not match with column names in table'
 
                 # the program exits since there's no point validating other things if there are missing columns
                 # on the dataset
-                print("error")
                 exit()

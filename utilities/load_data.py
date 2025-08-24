@@ -4,6 +4,10 @@ from db_connect import DBConnect
 
 class LoadData(DBConnect):
 
+    """
+        Contains methods that help ingest data into the csv file
+    """
+
     
     def __init__(self, data, column_names, table_name):
 
@@ -18,7 +22,7 @@ class LoadData(DBConnect):
     def load_data_to_dbase(self):
 
         """
-           Loads data into the database
+           Loads/Ingests data into the database
         """
 
         # get column name
@@ -42,7 +46,7 @@ class LoadData(DBConnect):
     def __generate_queries(self):
 
         """
-          Generates queries to be executed and use to load data into database
+            Generates queries to be executed and use to load data into database
         """
 
         print("...generating queries for the {} table".format(self.__table_name))
@@ -78,6 +82,9 @@ format(self.__table_name, column_names, values))
 
                 self.__line_no += 1
             # iterate through each table to collect the id and generate the equivalent insert query
+            # table id 0: products table
+            # table id 1: regions table
+            # table id 2: countries table
                 for table_id in range(3):
                     required_column_ids.append(self.__retrieve_id(table_id, self.__data[row_id][table_id]))
                     
@@ -94,7 +101,11 @@ required_column_ids))
 	
         return generated_queries
               
-    def __extract_column_names(self):
+    def __extract_column_names(self) -> str:
+    
+        """Returns the extracted column names
+
+        """
         
         # extract the values from the data in string format
         cnames = ""
@@ -113,8 +124,12 @@ required_column_ids))
 
         return cnames
 
-    def __extract_data_values(self):
+    def __extract_data_values(self) -> str:
         
+        """Returns the extracted data values
+
+            Extracts data from the csv file   
+        """
         # extract the values from the data in string format
         values = ""
 
@@ -131,10 +146,14 @@ required_column_ids))
 
         return values
     
-    def __retrieve_id(self, table_id, value):
+    def __retrieve_id(self, table_id: int, value: str) -> int:
             
-        """
+        """Returns the retrieved id
+
             Get the required id of the row based on the data value
+            table id 0: products table
+            table id 1: regions table
+            table id 2: countries table
         """
 
         if table_id == 0:
@@ -154,6 +173,13 @@ required_column_ids))
         cur.execute(query)
         record = cur.fetchall()
 
+        """
+            The code below performs some level of data validation by ensuring that all the correct products
+            names in the products table are also present on the sales table. If there are any discrepancies like
+            mispelling, it will terminate the program execution. It also ensures the arrangement of the data in
+            the csv file are inline with the column names. For example, putting a region(continent) name under the country
+            column may result in program termination.
+        """
         try:
             return record[0][0]
         except IndexError:
