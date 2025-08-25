@@ -13,7 +13,7 @@ and then run the analytical RESTapi endpoints. Run the following two commands in
 - python ingest_data.py<br />
 - python app.py
 
-For full description on the steps to take on how to run the application, check the file
+For a full description on the steps to take on how to run the application, check the file
 how-to-run-application.txt
 
 The software requirements for running the applications is in the requirements.txt file
